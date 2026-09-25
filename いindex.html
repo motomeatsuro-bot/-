@@ -1,0 +1,3740 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+  <base target="_top">
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #0b5a9d;
+      --blue-dark: #084777;
+      --blue-light: #eaf4fb;
+      --blue-pale: #f5faff;
+      --border: #dce8f2;
+      --text: #1d2a35;
+      --muted: #667784;
+      --white: #ffffff;
+      --danger: #b42318;
+      --danger-bg: #fff1f0;
+      --success: #157347;
+      --success-bg: #edf8f2;
+      --warning: #a15c00;
+      --warning-bg: #fff7e8;
+      --shadow: 0 8px 28px rgba(11, 90, 157, .08);
+    }
+
+    body {
+      margin: 0;
+      background: #f5f8fb;
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans JP",
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        sans-serif;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+
+    /* =========================================
+       LOGIN
+       ========================================= */
+
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(
+          circle at top left,
+          #e8f5ff 0,
+          transparent 42%
+        ),
+        linear-gradient(
+          135deg,
+          #f7fbff,
+          #edf5fb
+        );
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 38px;
+      box-shadow: var(--shadow);
+    }
+
+    .login-mark {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: var(--blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      margin-bottom: 22px;
+    }
+
+    .login-card h1 {
+      margin: 0 0 8px;
+      font-size: 25px;
+      color: var(--blue-dark);
+      letter-spacing: .01em;
+    }
+
+    .login-subtitle {
+      margin: 0 0 30px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #405260;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      height: 48px;
+      border: 1px solid #cad9e5;
+      border-radius: 11px;
+      padding: 0 14px;
+      background: white;
+      outline: none;
+      transition: .2s;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--blue);
+      box-shadow:
+        0 0 0 3px
+        rgba(11, 90, 157, .08);
+    }
+
+    .primary-button {
+      width: 100%;
+      height: 49px;
+      border: none;
+      border-radius: 11px;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .primary-button:hover {
+      background: var(--blue-dark);
+    }
+
+    .primary-button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .login-error {
+      margin-top: 15px;
+      padding: 11px 13px;
+      border-radius: 9px;
+      background: var(--danger-bg);
+      color: var(--danger);
+      font-size: 13px;
+      display: none;
+    }
+
+    .login-foot {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #edf1f4;
+      text-align: center;
+      color: #84929c;
+      font-size: 12px;
+    }
+
+
+    /* =========================================
+       APP
+       ========================================= */
+
+    #appScreen {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 70px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 37px;
+      height: 37px;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--blue-dark);
+      white-space: nowrap;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .user-info {
+      text-align: right;
+      margin-right: 5px;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .user-role {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .header-button {
+      border: 1px solid #cddce8;
+      background: white;
+      color: #405260;
+      border-radius: 9px;
+      padding: 9px 13px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .header-button:hover {
+      background: #f5f9fc;
+    }
+
+    .admin-button {
+      border-color: #b8d6eb;
+      color: var(--blue);
+      background: #f3f9fd;
+    }
+
+    .main {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 38px 32px 60px;
+    }
+
+    .hero {
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 31px;
+      color: var(--blue-dark);
+      letter-spacing: -.02em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+
+    /* =========================================
+       SUMMARY
+       ========================================= */
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 25px;
+    }
+
+    .summary-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow:
+        0 2px 10px
+        rgba(31, 61, 83, .03);
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .summary-value {
+      font-size: 27px;
+      font-weight: 800;
+      color: var(--blue-dark);
+    }
+
+    .summary-unit {
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: 4px;
+      font-weight: 500;
+    }
+
+
+    /* =========================================
+       TOOLBAR
+       ========================================= */
+
+    .toolbar {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 11px;
+      align-items: center;
+    }
+
+    .search-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #d2dfe8;
+      border-radius: 10px;
+      padding: 0 14px 0 41px;
+      outline: none;
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--blue);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 12px;
+      color: #8b9aa5;
+    }
+
+    .toolbar select {
+      height: 44px;
+      min-width: 160px;
+      border: 1px solid #d2dfe8;
+      border-radius: 10px;
+      padding: 0 12px;
+      background: white;
+      outline: none;
+    }
+
+
+    /* =========================================
+       CATEGORY
+       ========================================= */
+
+    .category-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .category-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 21px;
+      min-height: 150px;
+      cursor: pointer;
+      transition:
+        transform .16s,
+        box-shadow .16s,
+        border-color .16s;
+    }
+
+    .category-card:hover {
+      transform: translateY(-2px);
+      border-color: #bcd8eb;
+      box-shadow: var(--shadow);
+    }
+
+    .category-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .category-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #294356;
+      line-height: 1.5;
+    }
+
+    .category-count {
+      flex: 0 0 auto;
+      background: var(--blue-light);
+      color: var(--blue);
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .category-description {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .category-footer {
+      margin-top: 15px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+
+    /* =========================================
+       DRAWER
+       ========================================= */
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 38, 52, .35);
+      z-index: 80;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: -760px;
+      width: min(760px, 94vw);
+      height: 100vh;
+      background: white;
+      z-index: 90;
+      box-shadow:
+        -12px 0 35px
+        rgba(0, 0, 0, .12);
+      transition: right .25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer.show {
+      right: 0;
+    }
+
+    .drawer-header {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .drawer-header h2 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--blue-dark);
+    }
+
+    .drawer-subtitle {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .icon-button {
+      width: 37px;
+      height: 37px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 9px;
+      font-size: 19px;
+    }
+
+    .drawer-body {
+      padding: 20px 24px 30px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .doc-card {
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 17px;
+      margin-bottom: 11px;
+    }
+
+    .doc-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .doc-name {
+      font-weight: 800;
+      line-height: 1.55;
+    }
+
+    .status-badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      background: #eef3f7;
+      color: #536673;
+    }
+
+    .status-ok {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .status-warn {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .status-danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px 15px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .doc-note {
+      margin-top: 12px;
+      color: #526673;
+      font-size: 12px;
+      line-height: 1.65;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 10px 11px;
+    }
+
+    .doc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 13px;
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .doc-link:hover {
+      text-decoration: underline;
+    }
+
+    .no-data {
+      padding: 35px 15px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+
+    /* =========================================
+       ADMIN MODAL
+       ========================================= */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(18, 37, 51, .48);
+      z-index: 150;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .admin-modal {
+      width: min(1050px, 96vw);
+      max-height: 92vh;
+      background: white;
+      border-radius: 18px;
+      box-shadow:
+        0 24px 60px
+        rgba(0, 0, 0, .2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .admin-header h2 {
+      margin: 0;
+      color: var(--blue-dark);
+      font-size: 21px;
+    }
+
+    .admin-header p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .admin-body {
+      overflow-y: auto;
+      padding: 22px 24px 30px;
+    }
+
+    .admin-section {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .admin-section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #304b5f;
+      margin-bottom: 14px;
+    }
+
+    .add-user-grid {
+      display: grid;
+      grid-template-columns:
+        1fr 1.4fr 1.2fr .8fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .mini-field label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .mini-field input,
+    .mini-field select {
+      width: 100%;
+      height: 42px;
+      border: 1px solid #cedce7;
+      border-radius: 9px;
+      padding: 0 11px;
+      background: white;
+      outline: none;
+    }
+
+    .small-primary {
+      height: 42px;
+      border: none;
+      border-radius: 9px;
+      background: var(--blue);
+      color: white;
+      padding: 0 17px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .staff-table-wrap {
+      overflow-x: auto;
+    }
+
+    .staff-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 850px;
+    }
+
+    .staff-table th {
+      text-align: left;
+      padding: 10px 9px;
+      background: #f4f8fb;
+      border-bottom: 1px solid var(--border);
+      color: #597080;
+      font-size: 11px;
+    }
+
+    .staff-table td {
+      padding: 12px 9px;
+      border-bottom: 1px solid #edf2f5;
+      font-size: 12px;
+      vertical-align: middle;
+    }
+
+    .staff-name {
+      font-weight: 800;
+    }
+
+    .staff-id {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .role-select {
+      height: 34px;
+      border: 1px solid #cfdee8;
+      border-radius: 8px;
+      background: white;
+      padding: 0 8px;
+    }
+
+    .table-button {
+      border: 1px solid #ccdbe6;
+      background: white;
+      border-radius: 8px;
+      padding: 7px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+
+    .table-button:hover {
+      background: #f4f8fb;
+    }
+
+    .danger-button {
+      color: var(--danger);
+      border-color: #efc8c5;
+      background: #fffafa;
+    }
+
+    .enable-button {
+      color: var(--success);
+      border-color: #bcdcca;
+      background: #f7fcf9;
+    }
+
+    .admin-message {
+      display: none;
+      margin-bottom: 15px;
+      border-radius: 9px;
+      padding: 11px 13px;
+      font-size: 12px;
+    }
+
+    .admin-message.success {
+      display: block;
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .admin-message.error {
+      display: block;
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+
+    /* =========================================
+       PASSWORD MODAL
+       ========================================= */
+
+    .password-box {
+      width: min(430px, 95vw);
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow:
+        0 24px 60px
+        rgba(0, 0, 0, .22);
+    }
+
+    .password-box h3 {
+      margin: 0 0 7px;
+      color: var(--blue-dark);
+    }
+
+    .password-box p {
+      margin: 0 0 19px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .password-actions {
+      display: flex;
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .secondary-button {
+      height: 43px;
+      border: 1px solid #cad9e5;
+      background: white;
+      border-radius: 9px;
+      padding: 0 15px;
+      font-weight: 700;
+    }
+
+    .password-actions .primary-button {
+      height: 43px;
+    }
+
+
+    /* =========================================
+       LOADING
+       ========================================= */
+
+    .loading {
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer {
+      margin-top: 36px;
+      text-align: center;
+      color: #87949d;
+      font-size: 11px;
+    }
+
+
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+
+    @media (max-width: 900px) {
+
+      .summary-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .category-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .add-user-grid {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .topbar {
+        padding: 0 18px;
+      }
+
+      .main {
+        padding:
+          28px 18px 50px;
+      }
+
+    }
+
+    @media (max-width: 620px) {
+
+      .brand-title {
+        font-size: 13px;
+      }
+
+      .user-info {
+        display: none;
+      }
+
+      .header-button {
+        padding: 8px 9px;
+      }
+
+      .main {
+        padding:
+          23px 14px 45px;
+      }
+
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .summary-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+        gap: 9px;
+      }
+
+      .summary-card {
+        padding: 15px;
+      }
+
+      .summary-value {
+        font-size: 23px;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .toolbar select {
+        width: 100%;
+      }
+
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .add-user-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .small-primary {
+        width: 100%;
+      }
+
+      .login-card {
+        padding: 28px 22px;
+      }
+
+    }
+
+  
+    /* ===== 視認性改善 ===== */
+    body { background: linear-gradient(180deg,#f8fbfe 0,#f2f6fa 220px); }
+    .topbar { position:sticky;top:0;z-index:50;height:76px;padding-left:28px;padding-right:28px;box-shadow:0 3px 16px rgba(29,58,86,.05); }
+    .main { max-width:1480px;margin:0 auto;padding:26px 28px 48px; }
+    .hero { position:relative;overflow:hidden;padding:28px 30px;border:0;border-radius:20px;background:linear-gradient(125deg,#0b5a9d 0%,#1d75b5 65%,#4a98ca 100%);color:white;box-shadow:0 14px 34px rgba(11,90,157,.15); }
+    .hero h1 { color:white;font-size:25px;margin-bottom:7px; }
+    .hero p { color:rgba(255,255,255,.88);margin:0; }
+    .summary-grid { grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:18px;margin-bottom:18px; }
+    .summary-card { min-height:126px;border:1px solid #e2eaf2;border-radius:16px;padding:17px 18px 14px;box-shadow:0 6px 20px rgba(32,60,86,.05);position:relative;overflow:hidden; }
+    .summary-card:before { content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#8ba4ba; }
+    .summary-total:before{background:#0b5a9d}.summary-ok:before{background:#2f7d5a}.summary-check:before{background:#d29113}.summary-update:before{background:#d06b13}.summary-missing:before{background:#b84040}
+    .summary-label{font-size:12px;font-weight:800;color:#637587}.summary-value{margin-top:6px;font-size:30px;line-height:1.15;color:#17324d}.summary-hint{margin-top:7px;color:#8a98a7;font-size:10px}
+    .toolbar { position:sticky;top:92px;z-index:35;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border:1px solid #e0e9f1;border-radius:15px;padding:12px;box-shadow:0 8px 24px rgba(30,57,82,.06);margin-bottom:18px; }
+    .category-grid{gap:13px}.category-card{min-height:150px;border-radius:16px;border:1px solid #dfe8f0;padding:19px;box-shadow:0 5px 18px rgba(35,61,85,.045);transition:.16s ease}.category-card:hover{transform:translateY(-2px);border-color:#8ab8d8;box-shadow:0 10px 26px rgba(24,81,126,.10)}
+    .category-title{font-size:15px;line-height:1.5;color:#17324d}.category-count{min-width:45px;text-align:center;border-radius:999px;background:#eef6fc;color:#0b5a9d;font-weight:800}
+    .drawer{width:min(680px,94vw);box-shadow:-18px 0 50px rgba(20,45,70,.16)}.doc-card{border-radius:14px;border:1px solid #e0e8ef;padding:16px;margin-bottom:11px;box-shadow:0 3px 13px rgba(34,57,79,.04)}
+    .doc-name{font-size:15px;line-height:1.55;color:#17324d}.doc-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.doc-meta span{display:inline-flex;align-items:center;min-height:27px;padding:4px 8px;border-radius:7px;background:#f4f7fa;color:#5d6f80;font-size:11px}
+    @media(max-width:1100px){.summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:760px){.topbar{height:auto;min-height:72px;padding:12px 14px}.main{padding:16px 13px 38px}.hero{padding:22px 20px;border-radius:16px}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.summary-card{min-height:112px;padding:14px}.category-grid{grid-template-columns:1fr}.drawer{width:100%}}
+
+  
+    .search-result-info{
+      grid-column:1/-1;
+      padding:10px 14px;
+      border-radius:10px;
+      background:#eef6fc;
+      color:#285d86;
+      font-size:13px;
+    }
+    .search-empty{
+      grid-column:1/-1;
+      padding:38px 20px;
+      text-align:center;
+      background:#fff;
+      border:1px dashed #cfdce7;
+      border-radius:16px;
+    }
+    .search-empty-title{font-size:16px;font-weight:800;color:#29465f}
+    .search-empty-text{margin-top:6px;font-size:12px;color:#7c8d9d}
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     LOGIN
+     ========================================= -->
+
+<div id="loginScreen">
+
+  <div class="login-card">
+
+    <div class="login-mark">
+      ✓
+    </div>
+
+    <h1>
+      運営指導・監査管理センター
+    </h1>
+
+    <p class="login-subtitle">
+      アンスーリール・ド・サクラ 職員専用
+      <br>
+      職員IDとパスワードでログインしてください。
+    </p>
+
+    <form
+      id="loginForm"
+      onsubmit="handleLogin(event)"
+    >
+
+      <div class="field">
+
+        <label>
+          職員ID
+        </label>
+
+        <input
+          id="loginId"
+          type="text"
+          autocomplete="username"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          パスワード
+        </label>
+
+        <input
+          id="loginPassword"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+
+      </div>
+
+
+      <button
+        id="loginButton"
+        class="primary-button"
+        type="submit"
+      >
+        ログイン
+      </button>
+
+
+      <div
+        id="loginError"
+        class="login-error"
+      ></div>
+
+    </form>
+
+
+    <div class="login-foot">
+      関係職員以外の利用はできません
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================
+     APP
+     ========================================= -->
+
+<div
+  id="appScreen"
+  class="hidden"
+>
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        ✓
+      </div>
+
+      <div class="brand-title">
+        運営指導・監査管理センター
+      </div>
+
+    </div>
+
+
+    <div class="top-actions">
+
+      <div class="user-info">
+
+        <div
+          id="currentUserName"
+          class="user-name"
+        ></div>
+
+        <div
+          id="currentUserRole"
+          class="user-role"
+        ></div>
+
+      </div>
+
+
+      <button
+        id="adminButton"
+        class="header-button admin-button hidden"
+        onclick="openAdminPanel()"
+      >
+        職員管理
+      </button>
+
+
+      <button
+        class="header-button"
+        onclick="logout()"
+      >
+        ログアウト
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <main class="main">
+
+    <section class="hero">
+
+      <h1>
+        運営指導・監査管理センター
+      </h1>
+
+      <p>
+        書類の整備状況と保管場所を、ひとつの画面から確認
+      </p>
+
+    </section>
+
+
+    <section class="summary-grid">
+
+      <div class="summary-card summary-total">
+        <div class="summary-label">登録書類</div>
+        <div class="summary-value"><span id="totalCount">0</span><span class="summary-unit">件</span></div>
+        <div class="summary-hint">正式管理リスト</div>
+      </div>
+
+      <div class="summary-card summary-ok">
+        <div class="summary-label">整備済・確認済</div>
+        <div class="summary-value"><span id="okCount">0</span><span class="summary-unit">件</span></div>
+        <div class="summary-hint">現時点で確認済み</div>
+      </div>
+
+      <div class="summary-card summary-check">
+        <div class="summary-label">要確認</div>
+        <div class="summary-value"><span id="checkCount">0</span><span class="summary-unit">件</span></div>
+        <div class="summary-hint">所在・内容の確認が必要</div>
+      </div>
+
+      <div class="summary-card summary-update">
+        <div class="summary-label">要更新</div>
+        <div class="summary-value"><span id="updateCount">0</span><span class="summary-unit">件</span></div>
+        <div class="summary-hint">更新期限・内容を確認</div>
+      </div>
+
+      <div class="summary-card summary-missing">
+        <div class="summary-label">不足</div>
+        <div class="summary-value"><span id="missingCount">0</span><span class="summary-unit">件</span></div>
+        <div class="summary-hint">優先して整備</div>
+      </div>
+
+    </section>
+
+
+    <section class="toolbar">
+
+      <div class="search-wrap">
+
+        <span class="search-icon">
+          🔍
+        </span>
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="書類名・担当者・キーワードで検索"
+          oninput="renderCategories()"
+        >
+
+      </div>
+
+
+      <select
+        id="statusFilter"
+        onchange="renderCategories()"
+      >
+
+        <option value="">
+          すべての状態
+        </option>
+
+        <option value="整備済">
+          整備済
+        </option>
+
+        <option value="確認済">
+          確認済
+        </option>
+
+        <option value="要確認">
+          要確認
+        </option>
+
+        <option value="要更新">
+          要更新
+        </option>
+
+        <option value="不足">
+          不足
+        </option>
+
+        <option value="未確認">
+          未確認
+        </option>
+
+        <option value="対象外">
+          対象外
+        </option>
+
+      </select>
+
+    </section>
+
+
+    <section
+      id="categoryGrid"
+      class="category-grid"
+    >
+
+      <div class="loading">
+        書類情報を読み込んでいます...
+      </div>
+
+    </section>
+
+
+    <div class="footer">
+      アンスーリール・ド・サクラ
+      ｜ 内部業務用
+    </div>
+
+  </main>
+
+</div>
+
+
+
+<!-- =========================================
+     DOCUMENT DRAWER
+     ========================================= -->
+
+<div
+  id="drawerOverlay"
+  class="overlay"
+  onclick="closeDrawer()"
+></div>
+
+
+<aside
+  id="drawer"
+  class="drawer"
+>
+
+  <div class="drawer-header">
+
+    <div>
+
+      <h2 id="drawerTitle">
+      </h2>
+
+      <div
+        id="drawerSubtitle"
+        class="drawer-subtitle"
+      ></div>
+
+    </div>
+
+    <button
+      class="icon-button"
+      onclick="closeDrawer()"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <div
+    id="drawerBody"
+    class="drawer-body"
+  ></div>
+
+</aside>
+
+
+
+<!-- =========================================
+     ADMIN
+     ========================================= -->
+
+<div
+  id="adminOverlay"
+  class="modal-overlay"
+>
+
+  <div class="admin-modal">
+
+    <div class="admin-header">
+
+      <div>
+
+        <h2>
+          職員管理
+        </h2>
+
+        <p>
+          職員アカウントの追加・停止・権限変更・パスワード再設定
+        </p>
+
+      </div>
+
+      <button
+        class="icon-button"
+        onclick="closeAdminPanel()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="admin-body">
+
+      <div
+        id="adminMessage"
+        class="admin-message"
+      ></div>
+
+
+      <section class="admin-section">
+
+        <div class="admin-section-title">
+          新しい職員を登録
+        </div>
+
+
+        <div class="add-user-grid">
+
+          <div class="mini-field">
+
+            <label>
+              ログインID
+            </label>
+
+            <input
+              id="newLoginId"
+              type="text"
+              placeholder="例：tomita"
+            >
+
+          </div>
+
+
+          <div class="mini-field">
+
+            <label>
+              氏名
+            </label>
+
+            <input
+              id="newUserName"
+              type="text"
+              placeholder="例：冨田 ○○"
+            >
+
+          </div>
+
+
+          <div class="mini-field">
+
+            <label>
+              初期パスワード
+            </label>
+
+            <input
+              id="newUserPassword"
+              type="password"
+              placeholder="8文字以上"
+            >
+
+          </div>
+
+
+          <div class="mini-field">
+
+            <label>
+              権限
+            </label>
+
+            <select id="newUserRole">
+
+              <option value="一般">
+                一般
+              </option>
+
+              <option value="管理者">
+                管理者
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <button
+            id="addUserButton"
+            class="small-primary"
+            onclick="addStaffUser()"
+          >
+            職員を追加
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <section class="admin-section">
+
+        <div class="admin-section-title">
+          登録職員
+        </div>
+
+
+        <div
+          id="staffList"
+          class="staff-table-wrap"
+        >
+
+          <div class="loading">
+            読み込み中...
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================
+     PASSWORD RESET
+     ========================================= -->
+
+<div
+  id="passwordOverlay"
+  class="modal-overlay"
+>
+
+  <div class="password-box">
+
+    <h3>
+      パスワード再設定
+    </h3>
+
+    <p id="passwordTargetText">
+    </p>
+
+
+    <div class="field">
+
+      <label>
+        新しいパスワード
+      </label>
+
+      <input
+        id="resetPasswordInput"
+        type="password"
+        placeholder="8文字以上"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        新しいパスワード（確認）
+      </label>
+
+      <input
+        id="resetPasswordConfirm"
+        type="password"
+        placeholder="もう一度入力"
+      >
+
+    </div>
+
+
+    <div class="password-actions">
+
+      <button
+        class="secondary-button"
+        onclick="closePasswordModal()"
+      >
+        キャンセル
+      </button>
+
+      <button
+        class="primary-button"
+        onclick="executePasswordReset()"
+      >
+        再設定する
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================
+   GLOBAL
+   ========================================= */
+
+let documentsData = [];
+
+let currentUser = null;
+
+let passwordResetTarget = null;
+
+
+const CATEGORY_ORDER = [
+
+  '① 人員・労務',
+  '② 利用者・支援',
+  '③ 運営・設備',
+  '④ 防災・BCP・感染症',
+  '⑤ 虐待・身体拘束・研修',
+  '⑥ 請求・会計',
+  '⑦ B型・工賃',
+  '⑧ 届出・加算',
+  '⑨ 自主点検'
+
+];
+
+
+const CATEGORY_DESCRIPTIONS = {
+
+  '① 人員・労務':
+    '勤務体制、資格、雇用契約、就業規則、給与・労務関係',
+
+  '② 利用者・支援':
+    '利用契約、個別支援計画、支援記録、受給者証、利用者関係',
+
+  '③ 運営・設備':
+    '運営規程、設備、協力医療、苦情・事故、車両などの運営関係',
+
+  '④ 防災・BCP・感染症':
+    '消防・避難、業務継続計画、感染症・衛生管理関係',
+
+  '⑤ 虐待・身体拘束・研修':
+    '職員研修、虐待防止、身体拘束適正化の指針・記録関係',
+
+  '⑥ 請求・会計':
+    '給付費請求、利用料、実績記録、会計・決算関係',
+
+  '⑦ B型・工賃':
+    '工賃、生産活動、就労支援事業会計、施設外就労関係',
+
+  '⑧ 届出・加算':
+    '指定・変更届、体制届、加算、処遇改善、情報公表関係',
+
+  '⑨ 自主点検':
+    '通所系共通部分・就労継続支援B型の自主点検調書'
+
+};
+
+
+/* =========================================
+   SEARCH / FILTER EVENTS
+   ========================================= */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  function() {
+
+    const searchInput =
+      document.getElementById(
+        'searchInput'
+      );
+
+    const statusFilter =
+      document.getElementById(
+        'statusFilter'
+      );
+
+
+    if (searchInput) {
+
+      searchInput.addEventListener(
+        'input',
+        renderCategories
+      );
+
+      searchInput.addEventListener(
+        'search',
+        renderCategories
+      );
+
+    }
+
+
+    if (statusFilter) {
+
+      statusFilter.addEventListener(
+        'change',
+        renderCategories
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   INITIALIZE
+   ========================================= */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  initializeApp
+);
+
+
+function initializeApp() {
+
+  sessionStorage.removeItem(
+    'ansourireLogin'
+  );
+
+
+  const token =
+    getToken();
+
+
+  if (!token) {
+
+    showLogin();
+
+    return;
+
+  }
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        if (
+          result &&
+          result.valid
+        ) {
+
+          currentUser = result;
+
+          showPortal();
+
+        } else {
+
+          clearLocalSession();
+
+          showLogin();
+
+        }
+
+      }
+    )
+
+    .withFailureHandler(
+      function() {
+
+        clearLocalSession();
+
+        showLogin();
+
+      }
+    )
+
+    .validateSession(
+      token
+    );
+
+}
+
+
+/* =========================================
+   LOGIN
+   ========================================= */
+
+function handleLogin(event) {
+
+  event.preventDefault();
+
+
+  const id =
+    document
+      .getElementById(
+        'loginId'
+      )
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById(
+        'loginPassword'
+      )
+      .value;
+
+
+  const button =
+    document
+      .getElementById(
+        'loginButton'
+      );
+
+
+  const errorBox =
+    document
+      .getElementById(
+        'loginError'
+      );
+
+
+  errorBox.style.display =
+    'none';
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    '確認中...';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          'ログイン';
+
+
+        if (
+          result &&
+          result.success
+        ) {
+
+          sessionStorage.setItem(
+            'ansourireSessionToken',
+            result.token
+          );
+
+
+          currentUser = {
+
+            valid: true,
+
+            loginId: id,
+
+            name:
+              result.name,
+
+            role:
+              result.role
+
+          };
+
+
+          document
+            .getElementById(
+              'loginPassword'
+            )
+            .value = '';
+
+
+          showPortal();
+
+
+        } else {
+
+          showLoginError(
+            result &&
+            result.message
+              ? result.message
+              : 'ログインできませんでした。'
+          );
+
+        }
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          'ログイン';
+
+
+        showLoginError(
+          getErrorMessage(
+            error
+          )
+        );
+
+      }
+    )
+
+    .loginUser(
+      id,
+      password
+    );
+
+}
+
+
+function showLoginError(message) {
+
+  const box =
+    document
+      .getElementById(
+        'loginError'
+      );
+
+
+  box.textContent =
+    message;
+
+
+  box.style.display =
+    'block';
+
+}
+
+
+/* =========================================
+   PORTAL
+   ========================================= */
+
+function showPortal() {
+
+  document
+    .getElementById(
+      'loginScreen'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'appScreen'
+    )
+    .classList
+    .remove(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'currentUserName'
+    )
+    .textContent =
+      currentUser &&
+      currentUser.name
+        ? currentUser.name
+        : '';
+
+
+  document
+    .getElementById(
+      'currentUserRole'
+    )
+    .textContent =
+      currentUser &&
+      currentUser.role
+        ? currentUser.role
+        : '';
+
+
+  const adminButton =
+    document
+      .getElementById(
+        'adminButton'
+      );
+
+
+  if (
+    currentUser &&
+    currentUser.role ===
+      '管理者'
+  ) {
+
+    adminButton
+      .classList
+      .remove(
+        'hidden'
+      );
+
+  } else {
+
+    adminButton
+      .classList
+      .add(
+        'hidden'
+      );
+
+  }
+
+
+  loadDocuments();
+
+}
+
+
+function showLogin() {
+
+  document
+    .getElementById(
+      'appScreen'
+    )
+    .classList
+    .add(
+      'hidden'
+    );
+
+
+  document
+    .getElementById(
+      'loginScreen'
+    )
+    .classList
+    .remove(
+      'hidden'
+    );
+
+}
+
+
+/* =========================================
+   DOCUMENTS
+   ========================================= */
+
+function loadDocuments() {
+
+  const token =
+    getToken();
+
+
+  if (!token) {
+
+    handleAuthFailure();
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      'categoryGrid'
+    )
+    .innerHTML =
+      '<div class="loading">書類情報を読み込んでいます...</div>';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(data) {
+
+        documentsData =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        updateSummary();
+
+        renderCategories();
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        const message =
+          getErrorMessage(
+            error
+          );
+
+
+        if (
+          message.includes(
+            '認証'
+          ) ||
+          message.includes(
+            'ログイン'
+          )
+        ) {
+
+          handleAuthFailure();
+
+          return;
+
+        }
+
+
+        document
+          .getElementById(
+            'categoryGrid'
+          )
+          .innerHTML =
+            '<div class="no-data">' +
+            escapeHtml(message) +
+            '</div>';
+
+      }
+    )
+
+    .getDocuments(
+      token
+    );
+
+}
+
+
+function updateSummary() {
+
+  const total = documentsData.length;
+
+  const okCount =
+    documentsData.filter(function(doc) {
+      const status = String(doc['状態'] || '');
+      return (
+        status.includes('整備済') ||
+        status.includes('確認済') ||
+        status.includes('揃っている')
+      );
+    }).length;
+
+  const checkCount =
+    documentsData.filter(
+      doc => String(doc['状態'] || '').includes('要確認')
+    ).length;
+
+  const updateCount =
+    documentsData.filter(
+      doc => String(doc['状態'] || '').includes('要更新')
+    ).length;
+
+  const missingCount =
+    documentsData.filter(function(doc) {
+      const status = String(doc['状態'] || '');
+      return (
+        status.includes('不足') ||
+        status.includes('未整備')
+      );
+    }).length;
+
+  document.getElementById('totalCount').textContent = total;
+  document.getElementById('okCount').textContent = okCount;
+  document.getElementById('checkCount').textContent = checkCount;
+  document.getElementById('updateCount').textContent = updateCount;
+  document.getElementById('missingCount').textContent = missingCount;
+
+}
+
+
+function getFilteredDocuments() {
+
+  const search =
+    document
+      .getElementById(
+        'searchInput'
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const status =
+    document
+      .getElementById(
+        'statusFilter'
+      )
+      .value;
+
+
+  return documentsData.filter(
+    function(doc) {
+
+      if (
+        status &&
+        !String(
+          doc['状態'] || ''
+        ).includes(status)
+      ) {
+
+        return false;
+
+      }
+
+
+      if (!search) {
+
+        return true;
+
+      }
+
+
+      const text =
+        Object
+          .values(doc)
+          .join(' ')
+          .toLowerCase();
+
+
+      return text.includes(
+        search
+      );
+
+    }
+  );
+
+}
+
+
+function renderCategories() {
+
+  const grid =
+    document
+      .getElementById(
+        'categoryGrid'
+      );
+
+
+  const filtered =
+    getFilteredDocuments();
+
+
+  grid.innerHTML = '';
+
+
+  const search =
+    document
+      .getElementById(
+        'searchInput'
+      )
+      .value
+      .trim();
+
+
+  const status =
+    document
+      .getElementById(
+        'statusFilter'
+      )
+      .value;
+
+
+  /*
+   * 検索中は一致0件のカテゴリーを表示しない。
+   * 以前は0件カードも残っていたため「検索しても変わらない」
+   * ように見えていた。
+   */
+  let renderedCategories = 0;
+
+
+  CATEGORY_ORDER.forEach(
+    function(category) {
+
+      const docs =
+        filtered.filter(
+          doc =>
+            String(
+              doc['カテゴリー'] || ''
+            ).trim() === category
+        );
+
+
+      if (
+        (search || status) &&
+        docs.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      renderedCategories++;
+
+
+      const card =
+        document.createElement(
+          'div'
+        );
+
+
+      card.className =
+        'category-card';
+
+
+      card.onclick =
+        function() {
+
+          openDrawer(
+            category,
+            docs
+          );
+
+        };
+
+
+      const description =
+        CATEGORY_DESCRIPTIONS[
+          category
+        ] || '';
+
+
+      card.innerHTML =
+        '<div class="category-card-head">' +
+          '<div class="category-title">' +
+            escapeHtml(category) +
+          '</div>' +
+          '<div class="category-count">' +
+            docs.length +
+            '件' +
+          '</div>' +
+        '</div>' +
+        '<div class="category-description">' +
+          escapeHtml(description) +
+        '</div>';
+
+
+      grid.appendChild(
+        card
+      );
+
+    }
+  );
+
+
+  if (
+    (search || status) &&
+    filtered.length === 0
+  ) {
+
+    grid.innerHTML =
+      '<div class="search-empty">' +
+        '<div class="search-empty-title">該当する書類がありません</div>' +
+        '<div class="search-empty-text">検索語や状態を変更してお試しください。</div>' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  if (
+    search ||
+    status
+  ) {
+
+    const info =
+      document.createElement(
+        'div'
+      );
+
+    info.className =
+      'search-result-info';
+
+    info.innerHTML =
+      '<strong>' +
+      filtered.length +
+      '件</strong>の書類が一致';
+
+    grid.insertBefore(
+      info,
+      grid.firstChild
+    );
+
+  }
+
+}
+
+
+function openDrawer(
+  category,
+  docs
+) {
+
+  document
+    .getElementById(
+      'drawerTitle'
+    )
+    .textContent =
+      category;
+
+
+  document
+    .getElementById(
+      'drawerSubtitle'
+    )
+    .textContent =
+      docs.length +
+      '件の書類';
+
+
+  const body =
+    document
+      .getElementById(
+        'drawerBody'
+      );
+
+
+  if (!docs.length) {
+
+    body.innerHTML =
+      '<div class="no-data">該当する書類はありません。</div>';
+
+  } else {
+
+    body.innerHTML =
+      docs
+        .map(
+          renderDocumentCard
+        )
+        .join('');
+
+  }
+
+
+  document
+    .getElementById(
+      'drawerOverlay'
+    )
+    .classList
+    .add(
+      'show'
+    );
+
+
+  document
+    .getElementById(
+      'drawer'
+    )
+    .classList
+    .add(
+      'show'
+    );
+
+}
+
+
+function closeDrawer() {
+
+  document
+    .getElementById(
+      'drawerOverlay'
+    )
+    .classList
+    .remove(
+      'show'
+    );
+
+
+  document
+    .getElementById(
+      'drawer'
+    )
+    .classList
+    .remove(
+      'show'
+    );
+
+}
+
+
+function renderDocumentCard(doc) {
+
+  const name =
+    doc['書類名'] || '名称未設定';
+
+
+  const status =
+    doc['状態'] || '未確認';
+
+
+  const owner =
+    doc['担当者'] || '未設定';
+
+
+  const importance =
+    doc['重要度'] || '';
+
+
+  const lastCheck =
+    doc['最終確認日'] || '';
+
+
+  const note =
+    doc['備考'] || '';
+
+
+  const url =
+    doc[
+      'Google Drive / 書類URL'
+    ] || '';
+
+
+  let statusClass = '';
+
+
+  if (
+    status.includes(
+      '整備'
+    ) ||
+    status.includes(
+      '確認済'
+    )
+  ) {
+
+    statusClass =
+      'status-ok';
+
+  }
+
+
+  if (
+    status.includes(
+      '要更新'
+    )
+  ) {
+
+    statusClass =
+      'status-warn';
+
+  }
+
+
+  if (
+    status.includes(
+      '不足'
+    ) ||
+    status.includes(
+      '未整備'
+    )
+  ) {
+
+    statusClass =
+      'status-danger';
+
+  }
+
+
+  let html =
+
+    '<div class="doc-card">' +
+
+      '<div class="doc-head">' +
+
+        '<div class="doc-name">' +
+          escapeHtml(name) +
+        '</div>' +
+
+        '<div class="status-badge ' +
+          statusClass +
+        '">' +
+          escapeHtml(status) +
+        '</div>' +
+
+      '</div>' +
+
+      '<div class="doc-meta">' +
+
+        '<span>担当：' +
+          escapeHtml(owner) +
+        '</span>' +
+
+        (
+          importance
+            ? '<span>重要度：' +
+              escapeHtml(
+                importance
+              ) +
+              '</span>'
+            : ''
+        ) +
+
+        (
+          lastCheck
+            ? '<span>最終確認：' +
+              escapeHtml(
+                lastCheck
+              ) +
+              '</span>'
+            : ''
+        ) +
+
+      '</div>';
+
+
+  if (note) {
+
+    html +=
+
+      '<div class="doc-note">' +
+        escapeHtml(note) +
+      '</div>';
+
+  }
+
+
+  if (
+    url &&
+    /^https?:\/\//i.test(
+      String(url).trim()
+    )
+  ) {
+
+    html +=
+
+      '<a ' +
+        'class="doc-link" ' +
+        'href="' +
+          escapeAttribute(url) +
+        '" ' +
+        'target="_blank" ' +
+        'rel="noopener noreferrer">' +
+        '書類を開く ↗' +
+      '</a>';
+
+  }
+
+
+  html +=
+    '</div>';
+
+
+  return html;
+
+}
+
+
+/* =========================================
+   ADMIN PANEL
+   ========================================= */
+
+function openAdminPanel() {
+
+  if (
+    !currentUser ||
+    currentUser.role !==
+      '管理者'
+  ) {
+
+    return;
+
+  }
+
+
+  clearAdminMessage();
+
+
+  document
+    .getElementById(
+      'adminOverlay'
+    )
+    .classList
+    .add(
+      'show'
+    );
+
+
+  loadStaffUsers();
+
+}
+
+
+function closeAdminPanel() {
+
+  document
+    .getElementById(
+      'adminOverlay'
+    )
+    .classList
+    .remove(
+      'show'
+    );
+
+}
+
+
+function loadStaffUsers() {
+
+  const token =
+    getToken();
+
+
+  const container =
+    document
+      .getElementById(
+        'staffList'
+      );
+
+
+  container.innerHTML =
+    '<div class="loading">職員情報を読み込んでいます...</div>';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(users) {
+
+        renderStaffUsers(
+          Array.isArray(users)
+            ? users
+            : []
+        );
+
+      }
+    )
+
+    .withFailureHandler(
+      handleAdminFailure
+    )
+
+    .getStaffUsers(
+      token
+    );
+
+}
+
+
+function renderStaffUsers(users) {
+
+  const container =
+    document
+      .getElementById(
+        'staffList'
+      );
+
+
+  if (!users.length) {
+
+    container.innerHTML =
+      '<div class="no-data">登録職員はいません。</div>';
+
+    return;
+
+  }
+
+
+  let html =
+
+    '<table class="staff-table">' +
+
+      '<thead>' +
+
+        '<tr>' +
+
+          '<th>職員</th>' +
+
+          '<th>状態</th>' +
+
+          '<th>権限</th>' +
+
+          '<th>登録日</th>' +
+
+          '<th>操作</th>' +
+
+        '</tr>' +
+
+      '</thead>' +
+
+      '<tbody>';
+
+
+  users.forEach(
+    function(user) {
+
+      const active =
+        user.status ===
+        '有効';
+
+
+      const isSelf =
+        currentUser &&
+        user.loginId ===
+          currentUser.loginId;
+
+
+      html +=
+
+        '<tr>' +
+
+          '<td>' +
+
+            '<div class="staff-name">' +
+              escapeHtml(
+                user.name
+              ) +
+              (
+                isSelf
+                  ? '（自分）'
+                  : ''
+              ) +
+            '</div>' +
+
+            '<div class="staff-id">' +
+              escapeHtml(
+                user.loginId
+              ) +
+            '</div>' +
+
+          '</td>' +
+
+          '<td>' +
+
+            '<span class="status-badge ' +
+              (
+                active
+                  ? 'status-ok'
+                  : 'status-danger'
+              ) +
+            '">' +
+              escapeHtml(
+                user.status
+              ) +
+            '</span>' +
+
+          '</td>' +
+
+          '<td>' +
+
+            '<select ' +
+              'class="role-select" ' +
+              (
+                isSelf
+                  ? 'disabled '
+                  : ''
+              ) +
+              'onchange="changeUserRole(' +
+                '\'' +
+                jsString(
+                  user.loginId
+                ) +
+                '\',' +
+                'this.value' +
+              ')">' +
+
+              '<option value="一般" ' +
+                (
+                  user.role ===
+                    '一般'
+                    ? 'selected'
+                    : ''
+                ) +
+              '>一般</option>' +
+
+              '<option value="管理者" ' +
+                (
+                  user.role ===
+                    '管理者'
+                    ? 'selected'
+                    : ''
+                ) +
+              '>管理者</option>' +
+
+            '</select>' +
+
+          '</td>' +
+
+          '<td>' +
+            escapeHtml(
+              user.registeredAt || ''
+            ) +
+          '</td>' +
+
+          '<td>' +
+
+            '<button ' +
+              'class="table-button" ' +
+              'onclick="openPasswordModal(' +
+                '\'' +
+                jsString(
+                  user.loginId
+                ) +
+                '\',' +
+                '\'' +
+                jsString(
+                  user.name
+                ) +
+                '\'' +
+              ')">' +
+              'PW再設定' +
+            '</button>' +
+
+            (
+              active
+                ? (
+                    isSelf
+                      ? ''
+                      : (
+                        '<button ' +
+                          'class="table-button danger-button" ' +
+                          'onclick="changeUserStatus(' +
+                            '\'' +
+                            jsString(
+                              user.loginId
+                            ) +
+                            '\',' +
+                            '\'停止\'' +
+                          ')">' +
+                          '停止' +
+                        '</button>'
+                      )
+                  )
+                : (
+                    '<button ' +
+                      'class="table-button enable-button" ' +
+                      'onclick="changeUserStatus(' +
+                        '\'' +
+                        jsString(
+                          user.loginId
+                        ) +
+                        '\',' +
+                        '\'有効\'' +
+                      ')">' +
+                      '有効化' +
+                    '</button>'
+                  )
+            ) +
+
+          '</td>' +
+
+        '</tr>';
+
+    }
+  );
+
+
+  html +=
+
+      '</tbody>' +
+
+    '</table>';
+
+
+  container.innerHTML =
+    html;
+
+}
+
+
+/* =========================================
+   ADD STAFF
+   ========================================= */
+
+function addStaffUser() {
+
+  const loginId =
+    document
+      .getElementById(
+        'newLoginId'
+      )
+      .value
+      .trim();
+
+
+  const name =
+    document
+      .getElementById(
+        'newUserName'
+      )
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById(
+        'newUserPassword'
+      )
+      .value;
+
+
+  const role =
+    document
+      .getElementById(
+        'newUserRole'
+      )
+      .value;
+
+
+  if (
+    !loginId ||
+    !name ||
+    !password
+  ) {
+
+    showAdminMessage(
+      'ID・氏名・初期パスワードを入力してください。',
+      false
+    );
+
+    return;
+
+  }
+
+
+  if (
+    password.length < 8
+  ) {
+
+    showAdminMessage(
+      '初期パスワードは8文字以上で設定してください。',
+      false
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document
+      .getElementById(
+        'addUserButton'
+      );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    '登録中...';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          '職員を追加';
+
+
+        document
+          .getElementById(
+            'newLoginId'
+          )
+          .value = '';
+
+
+        document
+          .getElementById(
+            'newUserName'
+          )
+          .value = '';
+
+
+        document
+          .getElementById(
+            'newUserPassword'
+          )
+          .value = '';
+
+
+        document
+          .getElementById(
+            'newUserRole'
+          )
+          .value = '一般';
+
+
+        showAdminMessage(
+          result.message ||
+          '職員を登録しました。',
+          true
+        );
+
+
+        loadStaffUsers();
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          '職員を追加';
+
+
+        handleAdminFailure(
+          error
+        );
+
+      }
+    )
+
+    .adminAddUser(
+
+      getToken(),
+
+      loginId,
+
+      name,
+
+      password,
+
+      role
+
+    );
+
+}
+
+
+/* =========================================
+   STATUS
+   ========================================= */
+
+function changeUserStatus(
+  loginId,
+  status
+) {
+
+  const text =
+    status === '停止'
+      ? 'この職員のログインを停止しますか？'
+      : 'この職員のログインを有効にしますか？';
+
+
+  if (!confirm(text)) {
+
+    return;
+
+  }
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        showAdminMessage(
+          result.message ||
+          '変更しました。',
+          true
+        );
+
+
+        loadStaffUsers();
+
+      }
+    )
+
+    .withFailureHandler(
+      handleAdminFailure
+    )
+
+    .adminSetUserStatus(
+
+      getToken(),
+
+      loginId,
+
+      status
+
+    );
+
+}
+
+
+/* =========================================
+   ROLE
+   ========================================= */
+
+function changeUserRole(
+  loginId,
+  role
+) {
+
+  const message =
+    '権限を「' +
+    role +
+    '」に変更しますか？';
+
+
+  if (!confirm(message)) {
+
+    loadStaffUsers();
+
+    return;
+
+  }
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        showAdminMessage(
+          result.message ||
+          '権限を変更しました。',
+          true
+        );
+
+
+        loadStaffUsers();
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        handleAdminFailure(
+          error
+        );
+
+
+        loadStaffUsers();
+
+      }
+    )
+
+    .adminSetUserRole(
+
+      getToken(),
+
+      loginId,
+
+      role
+
+    );
+
+}
+
+
+/* =========================================
+   PASSWORD RESET
+   ========================================= */
+
+function openPasswordModal(
+  loginId,
+  name
+) {
+
+  passwordResetTarget = {
+
+    loginId:
+      loginId,
+
+    name:
+      name
+
+  };
+
+
+  document
+    .getElementById(
+      'passwordTargetText'
+    )
+    .textContent =
+      name +
+      'さんの新しいパスワードを設定します。';
+
+
+  document
+    .getElementById(
+      'resetPasswordInput'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'resetPasswordConfirm'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'passwordOverlay'
+    )
+    .classList
+    .add(
+      'show'
+    );
+
+}
+
+
+function closePasswordModal() {
+
+  passwordResetTarget =
+    null;
+
+
+  document
+    .getElementById(
+      'passwordOverlay'
+    )
+    .classList
+    .remove(
+      'show'
+    );
+
+}
+
+
+function executePasswordReset() {
+
+  if (!passwordResetTarget) {
+
+    return;
+
+  }
+
+
+  const password =
+    document
+      .getElementById(
+        'resetPasswordInput'
+      )
+      .value;
+
+
+  const confirmPassword =
+    document
+      .getElementById(
+        'resetPasswordConfirm'
+      )
+      .value;
+
+
+  if (
+    password.length < 8
+  ) {
+
+    alert(
+      'パスワードは8文字以上で設定してください。'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    password !==
+    confirmPassword
+  ) {
+
+    alert(
+      '確認用パスワードが一致しません。'
+    );
+
+    return;
+
+  }
+
+
+  const target =
+    passwordResetTarget;
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(result) {
+
+        closePasswordModal();
+
+
+        showAdminMessage(
+          result.message ||
+          'パスワードを再設定しました。',
+          true
+        );
+
+
+        loadStaffUsers();
+
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        alert(
+          getErrorMessage(
+            error
+          )
+        );
+
+      }
+    )
+
+    .adminResetPassword(
+
+      getToken(),
+
+      target.loginId,
+
+      password
+
+    );
+
+}
+
+
+/* =========================================
+   ADMIN MESSAGE
+   ========================================= */
+
+function showAdminMessage(
+  message,
+  success
+) {
+
+  const box =
+    document
+      .getElementById(
+        'adminMessage'
+      );
+
+
+  box.className =
+    'admin-message ' +
+    (
+      success
+        ? 'success'
+        : 'error'
+    );
+
+
+  box.textContent =
+    message;
+
+}
+
+
+function clearAdminMessage() {
+
+  const box =
+    document
+      .getElementById(
+        'adminMessage'
+      );
+
+
+  box.className =
+    'admin-message';
+
+
+  box.textContent =
+    '';
+
+}
+
+
+function handleAdminFailure(error) {
+
+  const message =
+    getErrorMessage(
+      error
+    );
+
+
+  if (
+    message.includes(
+      '認証'
+    ) ||
+    message.includes(
+      'ログイン'
+    )
+  ) {
+
+    closeAdminPanel();
+
+    handleAuthFailure();
+
+    return;
+
+  }
+
+
+  showAdminMessage(
+    message,
+    false
+  );
+
+}
+
+
+/* =========================================
+   LOGOUT
+   ========================================= */
+
+function logout() {
+
+  const token =
+    getToken();
+
+
+  clearLocalSession();
+
+
+  documentsData = [];
+
+  currentUser = null;
+
+
+  closeDrawer();
+
+  closeAdminPanel();
+
+  closePasswordModal();
+
+  showLogin();
+
+
+  if (token) {
+
+    google.script.run
+      .withFailureHandler(
+        function() {}
+      )
+      .logoutUser(
+        token
+      );
+
+  }
+
+}
+
+
+function handleAuthFailure() {
+
+  clearLocalSession();
+
+  documentsData = [];
+
+  currentUser = null;
+
+  closeDrawer();
+
+  closeAdminPanel();
+
+  closePasswordModal();
+
+  showLogin();
+
+
+  showLoginError(
+    'ログインの有効期限が切れました。もう一度ログインしてください。'
+  );
+
+}
+
+
+/* =========================================
+   SESSION STORAGE
+   ========================================= */
+
+function getToken() {
+
+  return (
+    sessionStorage.getItem(
+      'ansourireSessionToken'
+    ) || ''
+  );
+
+}
+
+
+function clearLocalSession() {
+
+  sessionStorage.removeItem(
+    'ansourireSessionToken'
+  );
+
+
+  sessionStorage.removeItem(
+    'ansourireUserName'
+  );
+
+
+  sessionStorage.removeItem(
+    'ansourireUserRole'
+  );
+
+
+  sessionStorage.removeItem(
+    'ansourireLogin'
+  );
+
+}
+
+
+/* =========================================
+   HELPERS
+   ========================================= */
+
+function getErrorMessage(error) {
+
+  if (!error) {
+
+    return '処理中にエラーが発生しました。';
+
+  }
+
+
+  if (
+    typeof error ===
+    'string'
+  ) {
+
+    return error;
+
+  }
+
+
+  if (error.message) {
+
+    return error.message;
+
+  }
+
+
+  return '処理中にエラーが発生しました。';
+
+}
+
+
+function escapeHtml(value) {
+
+  return String(
+    value == null
+      ? ''
+      : value
+  )
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+    .replace(
+      /</g,
+      '&lt;'
+    )
+    .replace(
+      />/g,
+      '&gt;'
+    )
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+
+}
+
+
+function escapeAttribute(value) {
+
+  return escapeHtml(
+    value
+  );
+
+}
+
+
+function jsString(value) {
+
+  return String(
+    value == null
+      ? ''
+      : value
+  )
+    .replace(
+      /\\/g,
+      '\\\\'
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    )
+    .replace(
+      /\r/g,
+      ''
+    )
+    .replace(
+      /\n/g,
+      '\\n'
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>
